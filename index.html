@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Transitions &amp; Animations Review</title>
+<style>
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background-color:#fdf6e9;
+    background-image:
+      linear-gradient(#e8dcc0 1px, transparent 1px),
+      linear-gradient(90deg, #e8dcc0 1px, transparent 1px);
+    background-size: 28px 28px;
+    font-family: "Comic Sans MS", "Marker Felt", "Segoe Print", cursive, sans-serif;
+    color:#333;
+    padding: 40px 20px 70px;
+  }
+
+  header{
+    text-align:center;
+  }
+
+  h1{
+    display:inline-block;
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    margin:0;
+    color:#e04870;
+    transform: rotate(-2deg);
+    animation: pop-in 0.6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+
+  h1 span{
+    display:inline-block;
+    animation: wiggle 2.2s ease-in-out 0.7s infinite;
+  }
+
+  @keyframes pop-in{
+    0%   { transform: scale(0) rotate(-2deg); opacity:0; }
+    70%  { transform: scale(1.15) rotate(-2deg); opacity:1; }
+    100% { transform: scale(1) rotate(-2deg); }
+  }
+
+  @keyframes wiggle{
+    0%, 100% { transform: rotate(0deg); }
+    25%      { transform: rotate(-8deg); }
+    75%      { transform: rotate(8deg); }
+  }
+
+  p.subtitle{
+    margin-top:10px;
+    color:#7a6a52;
+    opacity:0;
+    animation: fade-in 0.6s ease-out 0.5s forwards;
+  }
+
+  @keyframes fade-in{
+    to{ opacity:1; }
+  }
+
+  .grid{
+    max-width: 980px;
+    margin: 40px auto 0;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 34px 26px;
+  }
+
+  /* ---- flip card ---- */
+  .flip{
+    perspective: 1000px;
+    height: 180px;
+    opacity:0;
+    transform: translateY(24px);
+    animation: drop-in 0.5s ease-out forwards;
+  }
+
+  .grid .flip:nth-child(1){ animation-delay:0.6s; }
+  .grid .flip:nth-child(2){ animation-delay:0.68s; }
+  .grid .flip:nth-child(3){ animation-delay:0.76s; }
+  .grid .flip:nth-child(4){ animation-delay:0.84s; }
+  .grid .flip:nth-child(5){ animation-delay:0.92s; }
+  .grid .flip:nth-child(6){ animation-delay:1.0s; }
+  .grid .flip:nth-child(7){ animation-delay:1.08s; }
+  .grid .flip:nth-child(8){ animation-delay:1.16s; }
+
+  @keyframes drop-in{
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    text-align:center;
+    transition: transform 0.55s;
+    transform-style: preserve-3d;
+  }
+
+  .flip:hover .flip-inner{
+    transform: rotateY(180deg);
+  }
+
+  .flip-front, .flip-back{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius: 4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 18px;
+    font-size:1rem;
+    line-height:1.4;
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.15);
+    border: 2px solid #333;
+  }
+
+  .flip-front{
+    background:#fffdf5;
+  }
+
+  .flip-back{
+    background:#ffe27a;
+    transform: rotateY(180deg);
+    font-weight:bold;
+  }
+
+  /* alternate a couple of card colors so it doesn't feel uniform/templated */
+  .flip:nth-child(3n+2) .flip-back{ background:#a7e6b0; }
+  .flip:nth-child(3n) .flip-back{ background:#a9d8f7; }
+
+  /* little "taped corner" detail */
+  .flip-front::before{
+    content:"";
+    position:absolute;
+    top:-8px; left:50%;
+    width:44px; height:16px;
+    margin-left:-22px;
+    background: rgba(255,255,255,0.55);
+    border: 1px dashed rgba(0,0,0,0.25);
+    transform: rotate(-3deg);
+  }
+
+  .num{
+    position:absolute;
+    top:6px; left:10px;
+    font-size:0.7rem;
+    color:#999;
+  }
+
+  /* slight random tilt per card for hand-placed feel */
+  .flip:nth-child(odd) .flip-front{ transform: rotate(-1.5deg); }
+  .flip:nth-child(even) .flip-front{ transform: rotate(1.5deg); }
+
+  footer{
+    text-align:center;
+    margin-top:50px;
+    color:#a3937a;
+    font-size:0.85rem;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>CSS Transitions <span>&amp; Animations</span> Review</h1>
+    <p class="subtitle">hover a card to flip it and see the answer!</p>
+  </header>
+
+  <main class="grid">
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">1</span>Which property picks WHICH CSS properties get to transition?</div>
+        <div class="flip-back">transition-property</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">2</span>Which property controls HOW LONG a transition takes?</div>
+        <div class="flip-back">transition-duration</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">3</span>What does transition-timing-function: ease-in-out do?</div>
+        <div class="flip-back">Slow start &rarr; fast middle &rarr; slow finish</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">4</span>What rule do you use to set up the steps of an animation?</div>
+        <div class="flip-back">@keyframes</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">5</span>Which property sets how many times an animation repeats?</div>
+        <div class="flip-back">animation-iteration-count</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">6</span>What value makes an animation loop forever?</div>
+        <div class="flip-back">infinite</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">7</span>Which property controls how the element looks before/after it animates?</div>
+        <div class="flip-back">animation-fill-mode</div>
+      </div>
+    </div>
+
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="num">8</span>Big difference: transition vs. animation?</div>
+        <div class="flip-back">Transitions need a trigger (like :hover). Animations play on their own with @keyframes.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>Have Fun :)</footer>
+
+</body>
+</html>
